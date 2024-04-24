@@ -5,20 +5,28 @@ import { BSTNum, BNodeNum } from "../common/bst";
  * Uses recursion. */
 
 function insertRecur(bst: BSTNum, val: number): void {
-  const newNode = new BNodeNum(val = val);
-  const root = bst.root;
 
-  if (root === null) bst.root = newNode;
-  // check left and right nodes
-  if (root && !root.right) {
-    root.right = newNode;
-  } else if (root && !root.left) {
-    root.left = newNode;
+  function _insertRecur(node: BNodeNum, val: number): void {
+    if (val < node.val) {
+      if (!node.left) {
+        node.left = new BNodeNum(val);
+      } else {
+        _insertRecur(node.left, val)
+      }
+    } else {
+      if (!node.right) {
+        node.right = new BNodeNum(val);
+      } else {
+        _insertRecur(node.right, val)
+      }
   }
+}
 
-  // insertRecur();
-
-  // if has both, check the children's left and right nodes
+  if (bst.root === null) {
+    bst.root = new BNodeNum(val);
+  } else {
+    _insertRecur(bst.root, val)
+  }
 }
 
 export { insertRecur };
